@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  mongo:
+    container_name: mongodb
+    restart: always
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USARNAME: 'devbills'
+      MONGO_INITDB_ROOT_PASSWORD: 'pass123'
+    ports: 
+      - '27017:27017'
+    networks:
+      - local
+
+  app:
+    depends_on:
+      - mongo
+    container_name: devbills-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:  # Corrigido de "volume" para "volumes"
+      - ./:/home/app
+    ports:
+      - '3033:3033'
+    networks:
+     - local
+    
+networks:
+  local:
+    name: local
