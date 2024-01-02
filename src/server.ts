@@ -1,12 +1,16 @@
+import 'dotenv/config';
 import express, { json } from 'express';
 import { routes } from './routes';
+import { setupMongo } from './database';
 
-const app = express();
+setupMongo().then(() => {
+  const app = express();
 
-app.use(routes)
+  app.use(routes);
 
-app.use(json());
+  app.use(json());
 
-app.listen(3033, () => {
-  console.log(`Server is running 🚀 http://localhost:3033`);
+  app.listen(3033, () => {
+    console.log(`Server is running 🚀 http://localhost:3033`);
+  });
 });
